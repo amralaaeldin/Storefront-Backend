@@ -1,0 +1,17 @@
+{
+  "dev": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "ecommerce_app",
+    "user": "amro",
+    "password": "1234"
+  },
+  
+  "test": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "ecommerce_app_test",
+    "user": "amro",
+    "password": "1234"
+  }
+}
