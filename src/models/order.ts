@@ -12,6 +12,23 @@ export type Order = {
   id: string;
 } & ReqOrder;
 
+export type ProductOfOrder = {
+  orderId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  status: boolean;
+}
+
+export type ProductInOrderOfUser = ProductOfOrder & {
+  fname: string;
+  lname: string;
+  email: string;
+  userId: string;
+}
+
+
+
 export class OrderStore {
   async index(): Promise<Order[]> {
     try {
@@ -88,4 +105,41 @@ export class OrderStore {
       throw new Error(`Could not delete order ${id}. Error: ${err}`);
     }
   }
+
+  async getProductsInOrdersOfUser(userId: string): Promise<ProductInOrderOfUser[]> {
+    try {
+      const conn = await Client.connect();
+      const sql = 'SELECT orders.id as orderId, name, price, quantity, status, fname, lname, email, users.id as userId FROM orders INNER JOIN products ON orders.product_id=products.id INNER JOIN users ON orders.user_id=users.id WHERE users.id=($1)';
+      const result = await conn.query(sql, [userId]);
+      conn.release();
+      return result.rows;
+    } catch (err) {
+      throw new Error(`Could not get products in orders of user ${userId}. Error: ${err}`);
+    }
+  }
+
+  async getProductsInOrder(orderId: string): Promise<ProductOfOrder> {
+    try {
+      const conn = await Client.connect();
+      const sql = 'SELECT orders.id as orderId, name, price, quantity, status FROM orders INNER JOIN products ON orders.product_id=products.id WHERE orders.id=($1)';
+      const result = await conn.query(sql, [orderId]);
+      conn.release();
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Could not get products of order ${orderId}. Error: ${err}`);
+    }
+  }
+
+  async getProductInOrderOfUser(orderId: string, userId: string): Promise<ProductInOrderOfUser> {
+    try {
+      const conn = await Client.connect();
+      const sql = 'SELECT orders.id as orderId, name, price, quantity, status, fname, lname, email, users.id as userId FROM orders INNER JOIN products ON orders.product_id=products.id INNER JOIN users ON orders.user_id=users.id WHERE orders.id=($1) AND users.id=($2)';
+      const result = await conn.query(sql, [orderId, userId]);
+      conn.release();
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Could not get products in order ${orderId} of user ${userId}. Error: ${err}`);
+    }
+  }
+
 }
