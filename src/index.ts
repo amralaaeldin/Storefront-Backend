@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import express, { Application, Request, Response } from 'express';
 import userRoutes from './routes/userRoutes'
 import productRoutes from './routes/productRoutes'
+import orderRoutes from './routes/orderRoutes'
 
 const app: Application = express();
 const port = 7000;
@@ -16,6 +17,8 @@ app.get('/', (_req: Request, res: Response) => {
 app.use('/', userRoutes)
 
 app.use('/', productRoutes)
+
+app.use('/', orderRoutes)
 
 app.listen(port, () => {
   console.log(`Running on ${port}...`);
