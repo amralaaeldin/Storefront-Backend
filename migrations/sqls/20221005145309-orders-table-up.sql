@@ -1,1 +1,1 @@
-CREATE TABLE orders (id SERIAL PRIMARY KEY, product_id BIGINT REFERENCES products(id), quantity INT, user_id BIGINT REFERENCES users(id), status BOOLEAN);
+CREATE TABLE orders (id SERIAL PRIMARY KEY, user_id BIGINT REFERENCES users(id), status BOOLEAN);
