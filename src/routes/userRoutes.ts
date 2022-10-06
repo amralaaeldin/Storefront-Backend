@@ -18,6 +18,7 @@ routes.get('/users', async (_req: Request, res: Response) => {
     res.status(400).json(err)
   }
 })
+
 routes.get('/users/:id', async (req: Request, res: Response) => {
   try {
     const user = await store.show(req.params.id)
@@ -26,6 +27,7 @@ routes.get('/users/:id', async (req: Request, res: Response) => {
     res.status(400).json(err)
   }
 })
+
 routes.post('/users/signup', async (req: Request, res: Response) => {
   try {
     const user = await store.check(req.body.email)
@@ -73,6 +75,7 @@ routes.post('/users/login', async (req: Request, res: Response) => {
     res.status(400).json(err)
   }
 })
+
 routes.put('/users/:id', async (req: Request, res: Response) => {
   try {
     const user = await store.update(req.params.id, {
@@ -86,6 +89,7 @@ routes.put('/users/:id', async (req: Request, res: Response) => {
     res.status(400).json(err)
   }
 })
+
 routes.delete('/users/:id', async (req: Request, res: Response) => {
   try {
     const user = await store.delete(req.params.id)
