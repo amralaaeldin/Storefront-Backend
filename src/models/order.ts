@@ -109,7 +109,7 @@ export class OrderStore {
   async getProductsInOrdersOfUser(userId: string): Promise<ProductInOrderOfUser[]> {
     try {
       const conn = await Client.connect();
-      const sql = 'SELECT orders.id as orderId, name, price, quantity, status, fname, lname, email, users.id as userId FROM orders INNER JOIN products ON orders.product_id=products.id INNER JOIN users ON orders.user_id=users.id WHERE users.id=($1)';
+      const sql = 'SELECT orders.id as orderId, name, price, quantity, status, fname, lname, email, users.id as userId FROM orders INNER JOIN orders_products ON orders.id=orders_products.order_id INNER JOIN products ON orders_products.product_id=products.id INNER JOIN users ON orders.user_id=users.id WHERE users.id=($1)';
       const result = await conn.query(sql, [userId]);
       conn.release();
       return result.rows;
@@ -118,25 +118,25 @@ export class OrderStore {
     }
   }
 
-  async getProductsInOrder(orderId: string): Promise<ProductOfOrder> {
+  async getProductsInOrder(orderId: string): Promise<ProductOfOrder[]> {
     try {
       const conn = await Client.connect();
-      const sql = 'SELECT orders.id as orderId, name, price, quantity, status FROM orders INNER JOIN products ON orders.product_id=products.id WHERE orders.id=($1)';
+      const sql = 'SELECT orders.id as orderId, name, price, quantity, status FROM orders INNER JOIN orders_products ON orders_products.order_id=orders.id INNER JOIN products ON orders_products.product_id=products.id WHERE orders.id=($1)';
       const result = await conn.query(sql, [orderId]);
       conn.release();
-      return result.rows[0];
+      return result.rows;
     } catch (err) {
       throw new Error(`Could not get products of order ${orderId}. Error: ${err}`);
     }
   }
 
-  async getProductInOrderOfUser(orderId: string, userId: string): Promise<ProductInOrderOfUser> {
+  async getProductsInOrderOfUser(orderId: string, userId: string): Promise<ProductInOrderOfUser[]> {
     try {
       const conn = await Client.connect();
-      const sql = 'SELECT orders.id as orderId, name, price, quantity, status, fname, lname, email, users.id as userId FROM orders INNER JOIN products ON orders.product_id=products.id INNER JOIN users ON orders.user_id=users.id WHERE orders.id=($1) AND users.id=($2)';
+      const sql = 'SELECT orders.id as orderId, name, price, quantity, status, fname, lname, email, users.id as userId FROM orders INNER JOIN orders_products ON orders_products.order_id=orders.id INNER JOIN products ON orders_products.product_id=products.id INNER JOIN users ON orders.user_id=users.id WHERE orders.id=($1) AND users.id=($2)';
       const result = await conn.query(sql, [orderId, userId]);
       conn.release();
-      return result.rows[0];
+      return result.rows;
     } catch (err) {
       throw new Error(`Could not get products in order ${orderId} of user ${userId}. Error: ${err}`);
     }
