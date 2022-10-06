@@ -9,6 +9,16 @@ const user = {
   password: "sameh123"
 }
 
+const realUser = {
+  email: "sameh.com",
+  password: "sameh123"
+}
+
+const fakeUser = {
+  email: "fake.com",
+  password: "fake123"
+}
+
 const editedUser = {
   fname: "sameh",
   lname: "hussain",
@@ -64,6 +74,35 @@ describe("User Model", () => {
     })
   })
 
+  it('expects to get to return the user with email', async () => {
+    const result = await store.check(realUser.email)
+    expect(result).toEqual({
+      id: jasmine.any(Number),
+      ...user,
+      password: jasmine.any(String)
+    })
+  })
+
+  it('expects to get to return null with email of user that is not exist', async () => {
+    const result = await store.check(fakeUser.email)
+    expect(result).toBe(null)
+  })
+
+  it('expects to get to return the user', async () => {
+    const result = await store.authenticate(realUser)
+    expect(result).toEqual({
+      id: jasmine.any(Number),
+      ...user,
+      password: jasmine.any(String)
+    })
+  })
+
+  it('expects to get null for user that is not exist', async () => {
+    const result = await store.authenticate(fakeUser)
+    console.log(result)
+    expect(result).toBe(null)
+  })
+
   it('expects edit method to return the edited user', async () => {
     const result = await store.update(1, editedUser)
     expect(result).toEqual(
@@ -75,7 +114,7 @@ describe("User Model", () => {
     )
   })
 
-  it('expects delete method to return the deleted book', async () => {
+  it('expects delete method to return the deleted user', async () => {
     const result = await store.delete(1)
     expect(result).toEqual({
       id: 1,
