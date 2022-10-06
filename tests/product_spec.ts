@@ -52,27 +52,27 @@ describe("Product Model", () => {
   })
 
   it('expects show method to return the specific product', async () => {
-    const result = await store.show(1)
+    const result = await store.show(3)
     expect(result).toEqual({
-      id: 1,
+      id: 3,
       ...resProduct
     })
   })
 
   it('expects edit method to return the edited Product', async () => {
-    const result = await store.update(1, editedProduct)
+    const result = await store.update(3, editedProduct)
     expect(result).toEqual(
       {
-        id: 1,
+        id: 3,
         ...editedProduct, price: editedProduct.price.toFixed(2).toString()
       }
     )
   })
 
   it('expects delete method to return the deleted product', async () => {
-    const result = await store.delete(1)
+    const result = await store.delete(3)
     expect(result).toEqual({
-      id: 1,
+      id: 3,
       ...editedProduct, price: editedProduct.price.toFixed(2).toString()
     })
   })

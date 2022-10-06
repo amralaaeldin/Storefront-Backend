@@ -67,9 +67,9 @@ describe("User Model", () => {
   })
 
   it('expects show method to return the specific user', async () => {
-    const result = await store.show(1)
+    const result = await store.show(2)
     expect(result).toEqual({
-      id: 1,
+      id: 2,
       ...user, password: jasmine.any(String)
     })
   })
@@ -103,10 +103,10 @@ describe("User Model", () => {
   })
 
   it('expects edit method to return the edited user', async () => {
-    const result = await store.update(1, editedUser)
+    const result = await store.update(2, editedUser)
     expect(result).toEqual(
       {
-        id: 1,
+        id: 2,
         ...editedUser,
         password: jasmine.any(String)
       }
@@ -114,9 +114,9 @@ describe("User Model", () => {
   })
 
   it('expects delete method to return the deleted user', async () => {
-    const result = await store.delete(1)
+    const result = await store.delete(2)
     expect(result).toEqual({
-      id: 1,
+      id: 2,
       ...editedUser,
       password: jasmine.any(String)
     })

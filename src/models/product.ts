@@ -18,7 +18,6 @@ export class ProductStore {
       const sql = 'SELECT * FROM products';
       const result = await conn.query(sql);
       conn.release();
-
       return result.rows;
     } catch (err) {
       throw new Error(`Can't get products : ${err}`);
@@ -31,7 +30,6 @@ export class ProductStore {
       const sql = 'SELECT * FROM products WHERE id=($1)';
       const result = await conn.query(sql, [id]);
       conn.release();
-
       return result.rows[0];
     } catch (err) {
       throw new Error(`Could not find product ${id}. Error: ${err}`);
