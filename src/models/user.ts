@@ -106,13 +106,14 @@ export class UserStore {
     try {
       const conn = await Client.connect();
       const sql =
-        'UPDATE users SET fname= $2, lname= $3, email= $4, passowrd= $5 WHERE id=($1) RETURNING *';
+      'UPDATE users SET fname= $2, lname= $3, email= $4, password= $5 WHERE id=($1) RETURNING *';
+      const hashedPassword = bcrypt.hashSync(u.password + pepper, parseInt(process.env.SALT_ROUNDS as string))
       const result = await conn.query(sql, [
         id,
         u.fname,
         u.lname,
         u.email,
-        u.password,
+        hashedPassword,
       ]);
       conn.release();
       return result.rows[0];
