@@ -30,7 +30,7 @@ routes.post('/orders/', async (req: Request, res: Response) => {
     })
     // add products in orders_products table
     req.body.products.forEach(async (p: OrderProductReq) => {
-      await store.assignProductsToOrder(p.orderId, p.productId, p.quantity)
+      await store.assignProductsToOrder(order.id, p.productId, p.quantity)
     });
     res.json(order)
   } catch (err) {

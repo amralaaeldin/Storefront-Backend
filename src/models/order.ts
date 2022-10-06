@@ -19,8 +19,6 @@ export type ProductOfOrder = {
 }
 
 export type OrderProductReq = {
-  id: string;
-  orderId: string;
   productId: string;
   quantity: number;
 }
