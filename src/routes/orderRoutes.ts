@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+import authorize from '../middleware/authorize'
 import { OrderStore, OrderProductReq } from '../models/order'
 
 const routes = express.Router()
@@ -59,5 +60,13 @@ routes.delete('/orders/:id', async (req: Request, res: Response) => {
   }
 })
 
+routes.get('/users/:id/orders', authorize, async (req: Request, res: Response) => {
+  try {
+    const orders = await store.getProductsInOrdersOfUser(parseInt(req.params.id))
+    res.json(orders)
+  } catch (err) {
+    res.status(400).json(err)
+  }
+})
 
 export default routes;
