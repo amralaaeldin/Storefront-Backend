@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+import authorize from '../middleware/authorize'
 import { ProductStore } from '../models/product'
 
 const routes = express.Router()
@@ -22,7 +23,7 @@ routes.get('/products/:id', async (req: Request, res: Response) => {
   }
 })
 
-routes.post('/products/', async (req: Request, res: Response) => {
+routes.post('/products/', authorize, async (req: Request, res: Response) => {
   try {
     const product = await store.create({
       name: req.body.name,
@@ -34,7 +35,7 @@ routes.post('/products/', async (req: Request, res: Response) => {
   }
 })
 
-routes.put('/products/:id', async (req: Request, res: Response) => {
+routes.put('/products/:id', authorize, async (req: Request, res: Response) => {
   try {
     const product = await store.update(parseInt(req.params.id), {
       name: req.body.name,
@@ -46,7 +47,7 @@ routes.put('/products/:id', async (req: Request, res: Response) => {
   }
 })
 
-routes.delete('/products/:id', async (req: Request, res: Response) => {
+routes.delete('/products/:id', authorize, async (req: Request, res: Response) => {
   try {
     const product = await store.delete(parseInt(req.params.id))
     res.json(product)

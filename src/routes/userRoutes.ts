@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken'
 
 import { UserStore, User } from '../models/user'
+import authorize from '../middleware/authorize';
 
 dotenv.config();
 
@@ -10,7 +11,7 @@ dotenv.config();
 const routes = express.Router()
 const store = new UserStore()
 
-routes.get('/users', async (_req: Request, res: Response) => {
+routes.get('/users', authorize, async (_req: Request, res: Response) => {
   try {
     const users = await store.index()
     res.json(users)
@@ -19,7 +20,7 @@ routes.get('/users', async (_req: Request, res: Response) => {
   }
 })
 
-routes.get('/users/:id', async (req: Request, res: Response) => {
+routes.get('/users/:id', authorize, async (req: Request, res: Response) => {
   try {
     const user = await store.show(parseInt(req.params.id))
     res.json(user)
@@ -28,7 +29,7 @@ routes.get('/users/:id', async (req: Request, res: Response) => {
   }
 })
 
-routes.post('/users/signup', async (req: Request, res: Response) => {
+routes.post('/users/', authorize, async (req: Request, res: Response) => {
   try {
     const user = await store.check(req.body.email)
 
