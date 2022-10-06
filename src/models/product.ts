@@ -6,7 +6,7 @@ export type ReqProduct = {
 };
 
 export type Product = {
-  id: string;
+  id: number;
 } & ReqProduct;
 
 export class ProductStore {
@@ -23,7 +23,7 @@ export class ProductStore {
     }
   }
 
-  async show(id: string): Promise<Product> {
+  async show(id: number): Promise<Product> {
     try {
       const conn = await Client.connect();
       const sql = 'SELECT * FROM products WHERE id=($1)';
@@ -53,7 +53,7 @@ export class ProductStore {
     }
   }
 
-  async update(id: string, p: ReqProduct): Promise<Product> {
+  async update(id: number, p: ReqProduct): Promise<Product> {
     try {
       const conn = await Client.connect();
       const sql =
@@ -70,7 +70,7 @@ export class ProductStore {
     }
   }
 
-  async delete(id: string): Promise<Product> {
+  async delete(id: number): Promise<Product> {
     try {
       const conn = await Client.connect();
       const sql = 'DELETE FROM products WHERE id=($1) RETURNING *';

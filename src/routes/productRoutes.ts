@@ -15,7 +15,7 @@ routes.get('/products', async (_req: Request, res: Response) => {
 
 routes.get('/products/:id', async (req: Request, res: Response) => {
   try {
-    const product = await store.show(req.params.id)
+    const product = await store.show(parseInt(req.params.id))
     res.json(product)
   } catch (err) {
     res.status(400).json(err)
@@ -36,7 +36,7 @@ routes.post('/products/', async (req: Request, res: Response) => {
 
 routes.put('/products/:id', async (req: Request, res: Response) => {
   try {
-    const product = await store.update(req.params.id, {
+    const product = await store.update(parseInt(req.params.id), {
       name: req.body.name,
       price: req.body.price,
     })
@@ -48,7 +48,7 @@ routes.put('/products/:id', async (req: Request, res: Response) => {
 
 routes.delete('/products/:id', async (req: Request, res: Response) => {
   try {
-    const product = await store.delete(req.params.id)
+    const product = await store.delete(parseInt(req.params.id))
     res.json(product)
   } catch (err) {
     res.status(400).json(err)

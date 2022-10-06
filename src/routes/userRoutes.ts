@@ -21,7 +21,7 @@ routes.get('/users', async (_req: Request, res: Response) => {
 
 routes.get('/users/:id', async (req: Request, res: Response) => {
   try {
-    const user = await store.show(req.params.id)
+    const user = await store.show(parseInt(req.params.id))
     res.json(user)
   } catch (err) {
     res.status(400).json(err)
@@ -78,7 +78,7 @@ routes.post('/users/login', async (req: Request, res: Response) => {
 
 routes.put('/users/:id', async (req: Request, res: Response) => {
   try {
-    const user = await store.update(req.params.id, {
+    const user = await store.update(parseInt(req.params.id), {
       fname: req.body.fname,
       lname: req.body.lname,
       email: req.body.email,
@@ -92,7 +92,7 @@ routes.put('/users/:id', async (req: Request, res: Response) => {
 
 routes.delete('/users/:id', async (req: Request, res: Response) => {
   try {
-    const user = await store.delete(req.params.id)
+    const user = await store.delete(parseInt(req.params.id))
     res.json(user)
   } catch (err) {
     res.status(400).json(err)

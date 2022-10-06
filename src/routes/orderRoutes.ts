@@ -15,7 +15,7 @@ routes.get('/orders', async (_req: Request, res: Response) => {
 
 routes.get('/orders/:id', async (req: Request, res: Response) => {
   try {
-    const order = await store.show(req.params.id)
+    const order = await store.show(parseInt(req.params.id))
     res.json(order)
   } catch (err) {
     res.status(400).json(err)
@@ -40,7 +40,7 @@ routes.post('/orders/', async (req: Request, res: Response) => {
 
 routes.put('/orders/:id', async (req: Request, res: Response) => {
   try {
-    const order = await store.update(req.params.id, {
+    const order = await store.update(parseInt(req.params.id), {
       userId: req.body.userId,
       status: req.body.status,
     })
@@ -52,7 +52,7 @@ routes.put('/orders/:id', async (req: Request, res: Response) => {
 
 routes.delete('/orders/:id', async (req: Request, res: Response) => {
   try {
-    const order = await store.delete(req.params.id)
+    const order = await store.delete(parseInt(req.params.id))
     res.json(order)
   } catch (err) {
     res.status(400).json(err)

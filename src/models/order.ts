@@ -2,16 +2,16 @@ import { Product } from './product';
 import Client from './../database';
 
 export type ReqOrder = {
-  userId: string;
+  userId: number;
   status: boolean;
 };
 
 export type Order = {
-  id: string;
+  id: number;
 } & ReqOrder;
 
 export type ProductOfOrder = {
-  orderId: string;
+  orderId: number;
   name: string;
   price: number;
   quantity: number;
@@ -19,18 +19,18 @@ export type ProductOfOrder = {
 }
 
 export type OrderProductReq = {
-  productId: string;
+  productId: number;
   quantity: number;
 }
 export type OrderProduct = OrderProductReq & {
-  id: string;
+  id: number;
 }
 
 export type ProductInOrderOfUser = ProductOfOrder & {
   fname: string;
   lname: string;
   email: string;
-  userId: string;
+  userId: number;
 }
 
 
@@ -49,7 +49,7 @@ export class OrderStore {
     }
   }
 
-  async show(id: string): Promise<Order> {
+  async show(id: number): Promise<Order> {
     try {
       const conn = await Client.connect();
       const sql = 'SELECT * FROM orders WHERE id=($1)';
@@ -79,7 +79,7 @@ export class OrderStore {
     }
   }
 
-  async update(id: string, o: ReqOrder): Promise<Order> {
+  async update(id: number, o: ReqOrder): Promise<Order> {
     try {
       const conn = await Client.connect();
       const sql =
@@ -96,7 +96,7 @@ export class OrderStore {
     }
   }
 
-  async delete(id: string): Promise<Order> {
+  async delete(id: number): Promise<Order> {
     try {
       const conn = await Client.connect();
       const sql = 'DELETE FROM orders WHERE id=($1) RETURNING *';
@@ -108,7 +108,7 @@ export class OrderStore {
     }
   }
 
-  async getProductsInOrdersOfUser(userId: string): Promise<ProductInOrderOfUser[]> {
+  async getProductsInOrdersOfUser(userId: number): Promise<ProductInOrderOfUser[]> {
     try {
       const conn = await Client.connect();
       const sql = 'SELECT orders.id as orderId, name, price, quantity, status, fname, lname, email, users.id as userId FROM orders INNER JOIN orders_products ON orders.id=orders_products.order_id INNER JOIN products ON orders_products.product_id=products.id INNER JOIN users ON orders.user_id=users.id WHERE users.id=($1)';
@@ -120,7 +120,7 @@ export class OrderStore {
     }
   }
 
-  async getProductsInOrder(orderId: string): Promise<ProductOfOrder[]> {
+  async getProductsInOrder(orderId: number): Promise<ProductOfOrder[]> {
     try {
       const conn = await Client.connect();
       const sql = 'SELECT orders.id as orderId, name, price, quantity, status FROM orders INNER JOIN orders_products ON orders_products.order_id=orders.id INNER JOIN products ON orders_products.product_id=products.id WHERE orders.id=($1)';
@@ -132,7 +132,7 @@ export class OrderStore {
     }
   }
 
-  async getProductsInOrderOfUser(orderId: string, userId: string): Promise<ProductInOrderOfUser[]> {
+  async getProductsInOrderOfUser(orderId: number, userId: number): Promise<ProductInOrderOfUser[]> {
     try {
       const conn = await Client.connect();
       const sql = 'SELECT orders.id as orderId, name, price, quantity, status, fname, lname, email, users.id as userId FROM orders INNER JOIN orders_products ON orders_products.order_id=orders.id INNER JOIN products ON orders_products.product_id=products.id INNER JOIN users ON orders.user_id=users.id WHERE orders.id=($1) AND users.id=($2)';
@@ -144,7 +144,7 @@ export class OrderStore {
     }
   }
 
-  async assignProductsToOrder(orderId: string, productId: string, quantity: number): Promise<ProductInOrderOfUser> {
+  async assignProductsToOrder(orderId: number, productId: number, quantity: number): Promise<ProductInOrderOfUser> {
     try {
       const conn = await Client.connect();
       const sql =

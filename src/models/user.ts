@@ -18,7 +18,7 @@ export type ReqUser = {
 };
 
 export type User = ReqUser & {
-  id: string;
+  id: number;
   password: string;
 };
 
@@ -55,7 +55,7 @@ export class UserStore {
     }
   }
 
-  async show(id: string): Promise<User> {
+  async show(id: number): Promise<User> {
     try {
       const conn = await Client.connect();
       const sql = 'SELECT * FROM users WHERE id=($1)';
@@ -102,7 +102,7 @@ export class UserStore {
     }
   }
 
-  async update(id: string, u: ReqUser & { password: string }): Promise<User> {
+  async update(id: number, u: ReqUser & { password: string }): Promise<User> {
     try {
       const conn = await Client.connect();
       const sql =
@@ -122,7 +122,7 @@ export class UserStore {
     }
   }
 
-  async delete(id: string): Promise<User> {
+  async delete(id: number): Promise<User> {
     try {
       const conn = await Client.connect();
       const sql = 'DELETE FROM users WHERE id=($1) RETURNING *';
