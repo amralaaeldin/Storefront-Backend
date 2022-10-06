@@ -1,9 +1,7 @@
+import { Product } from './product';
 import Client from './../database';
 
 export type ReqOrder = {
-  name: string;
-  productId: string;
-  quantity: number;
   userId: string;
   status: boolean;
 };
@@ -18,6 +16,16 @@ export type ProductOfOrder = {
   price: number;
   quantity: number;
   status: boolean;
+}
+
+export type OrderProductReq = {
+  id: string;
+  orderId: string;
+  productId: string;
+  quantity: number;
+}
+export type OrderProduct = OrderProductReq & {
+  id: string;
 }
 
 export type ProductInOrderOfUser = ProductOfOrder & {
@@ -62,8 +70,6 @@ export class OrderStore {
       const sql =
         'INSERT INTO orders (product_id, quantity, user_id, status) VALUES($1, $2, $3, $4) RETURNING *';
       const result = await conn.query(sql, [
-        o.productId,
-        o.quantity,
         o.userId,
         o.status,
       ]);
@@ -71,7 +77,7 @@ export class OrderStore {
 
       return result.rows[0];
     } catch (err) {
-      throw new Error(`Could not add new order ${o.productId} with quantity ${o.quantity}. Error: ${err}`);
+      throw new Error(`Could not add new order. Error: ${err}`);
     }
   }
 
@@ -82,15 +88,13 @@ export class OrderStore {
         'UPDATE orders SET product_id= $2, quantity= $3, user_id= $4, status= $5 WHERE id=($1) RETURNING *';
       const result = await conn.query(sql, [
         id,
-        o.productId,
-        o.quantity,
         o.userId,
         o.status,
       ]);
       conn.release();
       return result.rows[0];
     } catch (err) {
-      throw new Error(`Can't update ${o.productId} with quantity ${o.quantity}. Error: ${err}`);
+      throw new Error(`Can't update. Error: ${err}`);
     }
   }
 
@@ -139,6 +143,19 @@ export class OrderStore {
       return result.rows;
     } catch (err) {
       throw new Error(`Could not get products in order ${orderId} of user ${userId}. Error: ${err}`);
+    }
+  }
+
+  async assignProductsToOrder(orderId: string, productId: string, quantity: number): Promise<ProductInOrderOfUser> {
+    try {
+      const conn = await Client.connect();
+      const sql =
+        'INSERT INTO orders_products (order_id, product_id, quantity) VALUES ($1, $2, $3) RETURNING *';
+      const result = await conn.query(sql, [orderId, productId, quantity]);
+      conn.release();
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Could not insert product ${productId} in order ${orderId}. Error: ${err}`);
     }
   }
 
