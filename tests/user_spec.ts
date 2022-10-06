@@ -99,7 +99,6 @@ describe("User Model", () => {
 
   it('expects to get null for user that is not exist', async () => {
     const result = await store.authenticate(fakeUser)
-    console.log(result)
     expect(result).toBe(null)
   })
 

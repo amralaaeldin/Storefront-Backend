@@ -7,7 +7,9 @@ export type ReqProduct = {
 
 export type Product = {
   id: number;
-} & ReqProduct;
+  name: string;
+  price: string;
+}
 
 export class ProductStore {
   async index(): Promise<Product[]> {
