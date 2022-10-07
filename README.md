@@ -14,6 +14,7 @@ _Storefront Backend_ is project that has users and product, providing endpoints 
 - - Create db named 'ecommerce_app'
 - - Create db named 'ecommerce_app_test'
 - - Create user named 'amro' with password '1234'
+- - Use postgres default port '5432'
 - - Make user 'amro' as owner of 'ecommerce_app' and 'ecommerce_app_test' databases
 - - Fill these values in .env.example: 
 - - - POSTGRES_HOST=<db host>
