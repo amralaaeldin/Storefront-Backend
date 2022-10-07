@@ -36,6 +36,10 @@ routes.post('/users/', async (req: Request, res: Response) => {
     if (user) {
       return res.status(400).json(`Error: email ${req.body.email} is already exist`)
     }
+
+    if (!req.body.fname || !req.body.lname || !req.body.email || !req.body.password) {
+      return res.status(400).json(`Error: fname, lname, email and password are required`)
+    }
     await store.create({
       fname: req.body.fname,
       lname: req.body.lname,
