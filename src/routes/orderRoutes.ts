@@ -5,7 +5,7 @@ import { OrderStore, OrderProductReq } from '../models/order'
 const routes = express.Router()
 const store = new OrderStore()
 
-routes.get('/orders', async (_req: Request, res: Response) => {
+routes.get('/orders', authorize, async (_req: Request, res: Response) => {
   try {
     const orders = await store.index()
     return res.json(orders)
@@ -14,7 +14,7 @@ routes.get('/orders', async (_req: Request, res: Response) => {
   }
 })
 
-routes.get('/orders/:id', async (req: Request, res: Response) => {
+routes.get('/orders/:id', authorize, async (req: Request, res: Response) => {
   try {
     const order = await store.show(parseInt(req.params.id))
     return res.json(order)
@@ -23,7 +23,7 @@ routes.get('/orders/:id', async (req: Request, res: Response) => {
   }
 })
 
-routes.post('/orders/', async (req: Request, res: Response) => {
+routes.post('/orders/', authorize, async (req: Request, res: Response) => {
   try {
     const order = await store.create({
       userId: req.body.userId,
@@ -39,7 +39,7 @@ routes.post('/orders/', async (req: Request, res: Response) => {
   }
 })
 
-routes.put('/orders/:id', async (req: Request, res: Response) => {
+routes.put('/orders/:id', authorize, async (req: Request, res: Response) => {
   try {
     const order = await store.update(parseInt(req.params.id), {
       userId: req.body.userId,
@@ -51,7 +51,7 @@ routes.put('/orders/:id', async (req: Request, res: Response) => {
   }
 })
 
-routes.delete('/orders/:id', async (req: Request, res: Response) => {
+routes.delete('/orders/:id', authorize, async (req: Request, res: Response) => {
   try {
     const order = await store.delete(parseInt(req.params.id))
     return res.json(order)
