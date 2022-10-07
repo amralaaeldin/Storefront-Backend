@@ -9,7 +9,7 @@
     "prettier": "prettier --config .prettierrc src/**/*.ts --write",
     "clean": "npm run prettier && npm run lint",
     "jasmine": "jasmine",
-    "test": "npm run clear-test && npm run build && db-migrate --env test up && jasmine && db-migrate --env test down && db-migrate db:drop test",
+    "test": "npm run clear-test && npm run build && db-migrate --env test up && jasmine && npm run clear-test",
     "start": "nodemon src/index.ts",
     "clear-test": "db-migrate --env test reset"
   },
