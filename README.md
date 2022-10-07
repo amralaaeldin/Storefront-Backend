@@ -20,11 +20,11 @@ _Storefront Backend_ is project that has users and product, providing endpoints 
 - - - ENV=<mode> <br />
 `note` if you will run test command, mode = test
 `note` if you will run build or start command, mode = dev   
-- Return to CMD
-- - run command 'db-migrate up'
 - Change name of .env.example to .env 
-- Run command 'npm run build'
-- Run command 'node ./build'
+- Return to CMD
+- - Run command 'db-migrate up'
+- - Run command 'npm run build'
+- - Run command 'node ./build'
 - Visit 'localhost:7000/' in browser
 
 ## Commands
