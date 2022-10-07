@@ -45,7 +45,7 @@ describe('Testing user endpoints responses', () => {
     (async function () {
       try {
         const response = await request.post('/users/');
-        expect(response.status).toBe(503);
+        expect(response.status).toBe(200);
         done();
       } catch (e) {
         done.fail(e as Error);
