@@ -17,7 +17,7 @@ _Storefront Backend_ is project that has users and product, providing endpoints 
 - - - POSTGRES_HOST=<db host>
 - - - POSTGRES_USER=<username of db owner>
 - - - POSTGRES_PASSWORD=<password>
-- - - ENV=<mode>
+- - - ENV=<mode> <br />
 `note` if you will run test command, mode = test
 `note` if you will run build or start command, mode = dev   
 - Return to CMD
