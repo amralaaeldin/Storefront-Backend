@@ -8,18 +8,18 @@ const store = new ProductStore()
 routes.get('/products', async (_req: Request, res: Response) => {
   try {
     const products = await store.index()
-    res.json(products)
+    return res.json(products)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
 routes.get('/products/:id', async (req: Request, res: Response) => {
   try {
     const product = await store.show(parseInt(req.params.id))
-    res.json(product)
+    return res.json(product)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
@@ -29,9 +29,9 @@ routes.post('/products/', authorize, async (req: Request, res: Response) => {
       name: req.body.name,
       price: req.body.price,
     })
-    res.json(product)
+    return res.json(product)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
@@ -41,18 +41,18 @@ routes.put('/products/:id', authorize, async (req: Request, res: Response) => {
       name: req.body.name,
       price: req.body.price,
     })
-    res.json(product)
+    return res.json(product)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
 routes.delete('/products/:id', authorize, async (req: Request, res: Response) => {
   try {
     const product = await store.delete(parseInt(req.params.id))
-    res.json(product)
+    return res.json(product)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 

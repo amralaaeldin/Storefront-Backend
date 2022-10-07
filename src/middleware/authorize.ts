@@ -11,6 +11,6 @@ export default function authorize(req: Request, res: Response, next: Function): 
     jwt.verify(token, process.env.SECRET_TOKEN as string)
     next()
   } catch (err) {
-    res.status(503).json(err)
+    return res.status(503).json(err)
   }
 }

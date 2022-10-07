@@ -14,18 +14,18 @@ const store = new UserStore()
 routes.get('/users', authorize, async (_req: Request, res: Response) => {
   try {
     const users = await store.index()
-    res.json(users)
+    return res.json(users)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
 routes.get('/users/:id', authorize, async (req: Request, res: Response) => {
   try {
     const user = await store.show(parseInt(req.params.id))
-    res.json(user)
+    return res.json(user)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
@@ -34,7 +34,7 @@ routes.post('/users/', async (req: Request, res: Response) => {
     const user = await store.check(req.body.email)
 
     if (user) {
-      res.status(400).json(`Error: email ${req.body.email} is already exist`)
+      return res.status(400).json(`Error: email ${req.body.email} is already exist`)
     }
     await store.create({
       fname: req.body.fname,
@@ -51,9 +51,9 @@ routes.post('/users/', async (req: Request, res: Response) => {
       }
     }, process.env.SECRET_TOKEN as string)
 
-    res.json(token)
+    return res.json(token)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
@@ -71,9 +71,9 @@ routes.post('/users/login', async (req: Request, res: Response) => {
         email: (user as User).email,
       }
     }, process.env.SECRET_TOKEN as string)
-    res.json(token)
+    return res.json(token)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
@@ -85,18 +85,18 @@ routes.put('/users/:id', authorize, async (req: Request, res: Response) => {
       email: req.body.email,
       password: req.body.password,
     })
-    res.json(user)
+    return res.json(user)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
 routes.delete('/users/:id', authorize, async (req: Request, res: Response) => {
   try {
     const user = await store.delete(parseInt(req.params.id))
-    res.json(user)
+    return res.json(user)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 

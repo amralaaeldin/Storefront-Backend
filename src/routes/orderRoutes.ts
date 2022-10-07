@@ -8,18 +8,18 @@ const store = new OrderStore()
 routes.get('/orders', async (_req: Request, res: Response) => {
   try {
     const orders = await store.index()
-    res.json(orders)
+    return res.json(orders)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
 routes.get('/orders/:id', async (req: Request, res: Response) => {
   try {
     const order = await store.show(parseInt(req.params.id))
-    res.json(order)
+    return res.json(order)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
@@ -33,9 +33,9 @@ routes.post('/orders/', async (req: Request, res: Response) => {
     req.body.products.forEach(async (p: OrderProductReq) => {
       await store.assignProductToOrder(order.id, p)
     });
-    res.json(order)
+    return res.json(order)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
@@ -45,27 +45,27 @@ routes.put('/orders/:id', async (req: Request, res: Response) => {
       userId: req.body.userId,
       status: req.body.status,
     })
-    res.json(order)
+    return res.json(order)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
 routes.delete('/orders/:id', async (req: Request, res: Response) => {
   try {
     const order = await store.delete(parseInt(req.params.id))
-    res.json(order)
+    return res.json(order)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
 routes.get('/users/:id/orders', authorize, async (req: Request, res: Response) => {
   try {
     const orders = await store.getProductsInOrdersOfUser(parseInt(req.params.id))
-    res.json(orders)
+    return res.json(orders)
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 })
 
