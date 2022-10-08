@@ -24,7 +24,7 @@ _Storefront Backend_ is project that has users and product, providing endpoints 
 - Return to CMD
 - - Run command 'db-migrate up'
 - - Run command 'npm run build'
-- - Run command 'node ./build'
+- - Run command 'node ./build/src'
 - Visit 'localhost:7000/' in browser
 
 ## Commands

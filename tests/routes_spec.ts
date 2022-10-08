@@ -56,6 +56,47 @@ describe('Testing user endpoints responses', () => {
 
 });
 
+describe('Testing product endpoints responses', () => {
+
+  it('gets products endpoint', (done) => {
+    (async function () {
+      try {
+        const response = await request.get('/products');
+        expect(response.status).toBe(200);
+        done();
+      } catch (e) {
+        done.fail(e as Error);
+      }
+    })();
+  });
+
+  it('gets products/:id endpoint', (done) => {
+    (async function () {
+      try {
+        const response = await request.get('/products/5');
+        expect(response.status).toBe(200);
+        done();
+      } catch (e) {
+        done.fail(e as Error);
+      }
+    })();
+  });
+
+  it('tries to add a product endpoint', (done) => {
+    (async function () {
+      try {
+        const response = await request.post('/products/');
+        expect(response.status).toBe(503);
+        done();
+      } catch (e) {
+        done.fail(e as Error);
+      }
+    })();
+    
+  });
+
+});
+
 describe('Testing order endpoints responses', () => {
 
   it('gets orders endpoint', (done) => {
