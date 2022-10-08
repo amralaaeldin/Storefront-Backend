@@ -20,8 +20,6 @@ _Storefront Backend_ is project that has users and product, providing endpoints 
 - - - POSTGRES_HOST=<db host>
 - - - POSTGRES_USER=<username of db owner>
 - - - POSTGRES_PASSWORD=<password> <br />
-`note` if you are using windows, run `set EVN=test` before running test command
-`note` if you are using linux or mac, run `export EVN=test` before running test command
 - Change name of .env.example to .env 
 - Return to CMD
 - - Run command 'db-migrate up'
