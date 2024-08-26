@@ -4,8 +4,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const pepper = 'secret-pepper';
-
 export type LoginUser = {
   email: string;
   password: string;
@@ -45,7 +43,7 @@ export class UserStore {
 
       if (
         result.rows[0] &&
-        bcrypt.compareSync(u.password + pepper, result.rows[0].password)
+        bcrypt.compareSync(u.password + process.env.PEPPER, result.rows[0].password)
       ) {
         return result.rows[0];
       } else {
@@ -87,7 +85,7 @@ export class UserStore {
       const sql =
         'INSERT INTO users (fname, lname, email, password) VALUES($1, $2, $3, $4) RETURNING *';
       const hashedPassword = bcrypt.hashSync(
-        u.password + pepper,
+        u.password + process.env.PEPPER,
         parseInt(process.env.SALT_ROUNDS as string)
       );
 
@@ -111,7 +109,7 @@ export class UserStore {
       const sql =
         'UPDATE users SET fname= $2, lname= $3, email= $4, password= $5 WHERE id=($1) RETURNING *';
       const hashedPassword = bcrypt.hashSync(
-        u.password + pepper,
+        u.password + process.env.PEPPER,
         parseInt(process.env.SALT_ROUNDS as string)
       );
       const result = await conn.query(sql, [
