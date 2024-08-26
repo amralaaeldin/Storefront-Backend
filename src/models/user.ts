@@ -43,7 +43,10 @@ export class UserStore {
 
       if (
         result.rows[0] &&
-        bcrypt.compareSync(u.password + process.env.PEPPER, result.rows[0].password)
+        bcrypt.compareSync(
+          u.password + process.env.PEPPER,
+          result.rows[0].password
+        )
       ) {
         return result.rows[0];
       } else {
