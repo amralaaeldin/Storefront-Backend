@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const pepper = "secret-pepper"
+const pepper = 'secret-pepper';
 
 export type LoginUser = {
   email: string;
@@ -21,7 +21,6 @@ export type User = ReqUser & {
   id: number;
   password: string;
 };
-
 
 export class UserStore {
   async index(): Promise<User[]> {
@@ -44,12 +43,14 @@ export class UserStore {
       const result = await conn.query(sql, [u.email]);
       conn.release();
 
-      if (result.rows[0] && bcrypt.compareSync(u.password + pepper, result.rows[0].password)) {
+      if (
+        result.rows[0] &&
+        bcrypt.compareSync(u.password + pepper, result.rows[0].password)
+      ) {
         return result.rows[0];
       } else {
         return null;
       }
-
     } catch (err) {
       throw new Error(`Could not find User ${u.email}. Error: ${err}`);
     }
@@ -80,19 +81,21 @@ export class UserStore {
     }
   }
 
-
   async create(u: ReqUser & { password: string }): Promise<User> {
     try {
       const conn = await Client.connect();
       const sql =
         'INSERT INTO users (fname, lname, email, password) VALUES($1, $2, $3, $4) RETURNING *';
-      const hashedPassword = bcrypt.hashSync(u.password + pepper, parseInt(process.env.SALT_ROUNDS as string))
+      const hashedPassword = bcrypt.hashSync(
+        u.password + pepper,
+        parseInt(process.env.SALT_ROUNDS as string)
+      );
 
       const result = await conn.query(sql, [
         u.fname,
         u.lname,
         u.email,
-        hashedPassword
+        hashedPassword,
       ]);
 
       conn.release();
@@ -107,7 +110,10 @@ export class UserStore {
       const conn = await Client.connect();
       const sql =
         'UPDATE users SET fname= $2, lname= $3, email= $4, password= $5 WHERE id=($1) RETURNING *';
-      const hashedPassword = bcrypt.hashSync(u.password + pepper, parseInt(process.env.SALT_ROUNDS as string))
+      const hashedPassword = bcrypt.hashSync(
+        u.password + pepper,
+        parseInt(process.env.SALT_ROUNDS as string)
+      );
       const result = await conn.query(sql, [
         id,
         u.fname,

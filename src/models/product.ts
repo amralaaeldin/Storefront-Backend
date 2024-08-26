@@ -9,7 +9,7 @@ export type Product = {
   id: number;
   name: string;
   price: string;
-}
+};
 
 export class ProductStore {
   async index(): Promise<Product[]> {
@@ -41,10 +41,7 @@ export class ProductStore {
       const conn = await Client.connect();
       const sql =
         'INSERT INTO products (name, price) VALUES($1, $2) RETURNING *';
-      const result = await conn.query(sql, [
-        p.name,
-        p.price,
-      ]);
+      const result = await conn.query(sql, [p.name, p.price]);
       conn.release();
 
       return result.rows[0];
@@ -58,11 +55,7 @@ export class ProductStore {
       const conn = await Client.connect();
       const sql =
         'UPDATE products SET name= $2, price= $3 WHERE id=($1) RETURNING *';
-      const result = await conn.query(sql, [
-        id,
-        p.name,
-        p.price,
-      ]);
+      const result = await conn.query(sql, [id, p.name, p.price]);
       conn.release();
       return result.rows[0];
     } catch (err) {
